@@ -150,6 +150,13 @@ hr {
     gap: 0.8rem;
     padding: 1rem 0; /* Padding para o player */
     box-sizing: border-box;
+    transform: translateY(100%); /* Inicialmente oculto */
+    transition: transform 0.3s ease-out; /* Transição para aparecer/desaparecer */
+}
+
+/* Regra para mostrar o player quando o mouse estiver sobre o corpo */
+body:hover .player-controls-bottom {
+    transform: translateY(0);
 }
 
 .progress-bar-container {
