@@ -5,4 +5,4 @@ Repositório para o projeto PDSWEB - Bem-te-ouvi
 
 No momento, a tela que estou construindo é a de play da musica juntamente com a de letra da musica para que possamos ouvir e ler o conteudo.
 
-Por enquanto, estou utilizando apenas HTML, CSS e JavaScript. 
+Por enquanto, estou utilizando apenas HTML, CSS, JavaScript, Python e Django 
