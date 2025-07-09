@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'player/css/letra.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Bem-te-ouvi</title>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-logo">
+                <p>bem-te-ouvi</p>
+            </div>
+            <div class="header-search">
+                <input type="search" placeholder="Buscar...">
+            </div>
+            <div class="header-user-actions">
+                <button class="login-btn">login</button>
+                <button class="signup-btn">cadastrar-se</button>
+                <div class="user-pic"></div>
+            </div>
+        </header>
+
+        <aside class="app-sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#">Página Inicial</a></li>
+                    <li><a href="#">Suas Playlists</a></li>
+                    <li><a href="#">Publicar Música</a></li>
+                    <li><a href="#">Anunciar Evento</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="app-main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

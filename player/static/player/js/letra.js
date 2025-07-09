@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             title: "Lions",
             artist: "Skillet",
-            albumCover: "./imagens/skillet.png",
-            audioSrc: "./audio/lions.mp4",
+            albumCover: "/static/player/imagens/skillet.png",
+            audioSrc: "/static/player/audio/lions.mp4",
             lyrics: [
                 { text: "Today we live, today we breathe", time: 6000 },
                 { text: "Today we know that we are strong and when we are weak", time: 8300 },
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
          {
             title: "Hail to the King",
             artist: "Avenged Sevenfold",
-            albumCover: "./imagens/avenged.png",
-            audioSrc: "./audio/king.mp4",
+            albumCover: "/static/player/imagens/avenged.png",
+            audioSrc: "/static/player/audio/king.mp4",
             lyrics: [
                 // O vocal começa em 1 minuto e 8 segundos (68000 ms)
                 { text: "Watch your tongue or have it cut from your head", time: 68000 },
@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { // NOVO OBJETO DA MÚSICA "SÓ POR UMA NOITE"
             title: "Só por uma noite",
             artist: "Charlie Brown Jr.",
-            albumCover: "./imagens/noite.png", 
-            audioSrc: "./audio/noite.mp4",    
+            albumCover: "/static/player/imagens/noite.png", 
+            audioSrc: "/static/player/audio/noite.mp4",   
             lyrics: [
                 // 
                 // **Você precisará tocar a música e ajustar CADA um para a sincronização perfeita.**
@@ -161,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             title: "Carry You Home",
             artist: "Alex Warren",
-            albumCover: "./imagens/home.png", 
-            audioSrc: "./audio/home.mp4",     
+            albumCover: "/static/player/imagens/carry.png", 
+            audioSrc: "/static/player/audio/home.mp4",     
             lyrics: [
                 
                 // **Você precisará tocar a música e ajustar CADA um para a sincronização perfeita.**
@@ -210,8 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             title: "One Number Away",
             artist: "Luke Combs",
-            albumCover: "./imagens/number.png", 
-            audioSrc: "./audio/number.mp4",     
+            albumCover:  "/static/player/imagens/number.png", 
+            audioSrc: "/static/player/audio/number.mp4",    
             lyrics: [
                 // 
                 // **Você precisará tocar a música e ajustar CADA um para a sincronização perfeita.**
@@ -272,8 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             title: "Learn to Fly",
             artist: "Foo Fighters",
-            albumCover: "./imagens/learn.png", 
-            audioSrc: "./audio/learn.mp4",     
+            albumCover: "/static/player/imagens/learn.png", 
+            audioSrc: "/static/player/audio/learn.mp4", 
             lyrics: [
                 
                 // **Você precisará tocar a música e ajustar CADA um para a sincronização perfeita.**
@@ -325,8 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { // NOVO OBJETO DA MÚSICA "A PLACE FOR MY HEAD"
             title: "A Place for My Head",
             artist: "Linkin Park",
-            albumCover: "./imagens/linkin.png", // Crie esta imagem!
-            audioSrc: "./audio/linkin.mp4",     // Crie este arquivo de áudio!
+            albumCover: "/static/player/imagens/linkin.png", 
+            audioSrc: "/static/player/audio/linkin.mp4",     
             lyrics: [
                 // **ATENÇÃO: Estes timestamps são ESTIMATIVAS, começando em 28 segundos (28000 ms)!**
                 // **Você precisará tocar a música e ajustar CADA um para a sincronização perfeita.**
