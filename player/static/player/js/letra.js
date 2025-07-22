@@ -447,6 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index < 0 || index >= playlist.length) {
             console.error("Índice de música inválido.");
             return;
+            
         }
 
         currentMusicIndex = index;
