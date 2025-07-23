@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. LER OS DADOS DA PÁGINA EM VEZ DE TÊ-LOS NO CÓDIGO
     const playlistDataElement = document.getElementById('playlist-data');
     if (!playlistDataElement) {
         console.error("Elemento com dados da playlist não encontrado!");
@@ -7,17 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const playlist = JSON.parse(playlistDataElement.textContent);
 
-
-    // --- VARIÁVEIS DE ESTADO DO PLAYER ---
     let currentMusicIndex = 0;
-    let lyricsLines = [];
 
-    // --- REFERÊNCIAS AOS ELEMENTOS DO DOM ---
+    // Elementos da UI
     const mainMusicContainer = document.getElementById('main-music-container');
     const albumCoverImg = document.getElementById('album-cover');
     const musicTitleElement = document.querySelector('.music-title');
     const artistNameElement = document.querySelector('.artist-name');
-    const lyricsContainer = document.querySelector('.lyrics-container');
+    const musicAudio = document.getElementById('music-audio');
+    
+    // Elementos do Player
     const playPauseButton = document.getElementById('play-pause-button');
     const playPauseIcon = playPauseButton.querySelector('i');
     const prevButton = document.getElementById('prev-button');
@@ -26,28 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBarMusic = document.querySelector('.progress-bar-music');
     const currentTimeSpan = document.getElementById('current-time');
     const totalTimeSpan = document.getElementById('total-time');
+
+    // Elementos da Letra
     const lyricsSection = document.querySelector('.lyrics-section');
+    const lyricsContainer = document.querySelector('.lyrics-container');
     const openLyricsButton = document.getElementById('open-lyrics-button');
     const closeLyricsButton = document.getElementById('close-lyrics-button');
-    const musicAudio = document.getElementById('music-audio');
 
-
-    // --- FUNÇÕES AUXILIARES ---
-
-    const formatTime = (totalSeconds) => {
-        if (isNaN(totalSeconds) || totalSeconds < 0) return "0:00";
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = Math.floor(totalSeconds % 60);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    const formatTime = (seconds) => {
+        if (isNaN(seconds)) return '0:00';
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
     const loadMusic = (index) => {
-        if (!playlist || playlist.length === 0 || index < 0 || index >= playlist.length) {
-            console.error("Playlist vazia ou índice de música inválido.");
-            // Opcional: desabilitar botões do player
+        if (!playlist || playlist.length === 0) {
+            console.error("Playlist está vazia ou não foi carregada.");
             return;
         }
-
         currentMusicIndex = index;
         const currentMusic = playlist[currentMusicIndex];
 
@@ -57,72 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
         artistNameElement.textContent = currentMusic.artist;
         musicAudio.src = currentMusic.audioSrc;
 
-        // 2. ATUALIZAÇÃO DA LÓGICA DA LETRA
         lyricsContainer.innerHTML = '';
         if (currentMusic.lyrics) {
-            // A letra agora é um texto único. Quebramos em linhas.
-            const lines = currentMusic.lyrics.split('\n');
-            lines.forEach(lineText => {
+            currentMusic.lyrics.split('\n').forEach(line => {
                 const p = document.createElement('p');
-                p.classList.add('lyrics-line');
-                p.textContent = lineText || '...'; // Adiciona '...' para linhas vazias
+                p.textContent = line.trim() === '' ? '...' : line;
                 lyricsContainer.appendChild(p);
             });
         }
-        // A funcionalidade de sincronia por tempo foi removida,
-        // pois o modelo atual não armazena o tempo de cada linha.
-
         resetPlayer();
     };
-    
-    // O Destaque da linha de letra foi simplificado, pois não há mais tempo
-    const highlightAndScrollLyric = () => {
-        // Esta função pode ser reativada no futuro se voltarmos a ter letras com tempo.
-    };
 
-    const updateProgress = () => {
-        if (!musicAudio.duration) return;
-        const duration = musicAudio.duration;
-        const progressPercentage = (musicAudio.currentTime / duration) * 100;
-        progressBarMusic.style.setProperty('--progress-width', `${progressPercentage}%`);
-        currentTimeSpan.textContent = formatTime(musicAudio.currentTime);
-    };
-
-
-    // --- CONTROLES DO PLAYER (sem grandes alterações) ---
-
-    const playMusic = () => {
-        musicAudio.play().catch(error => console.error("Erro ao tocar áudio:", error));
-        playPauseIcon.classList.remove('fa-play');
-        playPauseIcon.classList.add('fa-pause');
-    };
-
-    const pauseMusic = () => {
-        musicAudio.pause();
-        playPauseIcon.classList.remove('fa-pause');
-        playPauseIcon.classList.add('fa-play');
-    };
-
-    const togglePlayPause = () => {
-        if (musicAudio.paused) {
-            playMusic();
-        } else {
-            pauseMusic();
-        }
-    };
-
-    const nextMusic = () => {
-        const nextIndex = (currentMusicIndex + 1) % playlist.length;
-        loadMusic(nextIndex);
-        playMusic();
-    };
-
-    const prevMusic = () => {
-        const prevIndex = (currentMusicIndex - 1 + playlist.length) % playlist.length;
-        loadMusic(prevIndex);
-        playMusic();
-    };
-    
     const resetPlayer = () => {
         pauseMusic();
         musicAudio.currentTime = 0;
@@ -132,28 +72,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     };
 
-    progressBarContainer.addEventListener('click', (e) => {
-        if (!musicAudio.duration) return;
-        const progressBarWidth = progressBarContainer.clientWidth;
-        const clickX = e.offsetX;
-        musicAudio.currentTime = (clickX / progressBarWidth) * musicAudio.duration;
-        updateProgress();
-    });
+    const updateProgress = () => {
+        if (isNaN(musicAudio.duration)) return;
+        const progress = (musicAudio.currentTime / musicAudio.duration) * 100;
+        progressBarMusic.style.setProperty('--progress-width', `${progress}%`);
+        currentTimeSpan.textContent = formatTime(musicAudio.currentTime);
+    };
 
-    // --- EVENTOS DO ELEMENTO DE ÁUDIO ---
+    const playMusic = () => {
+        musicAudio.play().catch(e => console.error("Erro ao tocar música:", e));
+        playPauseIcon.classList.replace('fa-play', 'fa-pause');
+    };
+
+    const pauseMusic = () => {
+        musicAudio.pause();
+        playPauseIcon.classList.replace('fa-pause', 'fa-play');
+    };
+
+    const togglePlayPause = () => musicAudio.paused ? playMusic() : pauseMusic();
+    const nextMusic = () => loadMusic((currentMusicIndex + 1) % playlist.length);
+    const prevMusic = () => loadMusic((currentMusicIndex - 1 + playlist.length) % playlist.length);
+
+    // Event Listeners
+    playPauseButton.addEventListener('click', togglePlayPause);
+    nextButton.addEventListener('click', nextMusic);
+    prevButton.addEventListener('click', prevMusic);
     musicAudio.addEventListener('timeupdate', updateProgress);
     musicAudio.addEventListener('ended', nextMusic);
-    
-    // --- INTERAÇÃO COM A SEÇÃO DA LETRA ---
-    openLyricsButton.addEventListener('click', () => lyricsSection.classList.add('show'));
-    closeLyricsButton.addEventListener('click', () => lyricsSection.classList.remove('show'));
+    progressBarContainer.addEventListener('click', (e) => {
+        if (isNaN(musicAudio.duration)) return;
+        const width = progressBarContainer.clientWidth;
+        const clickX = e.offsetX;
+        musicAudio.currentTime = (clickX / width) * musicAudio.duration;
+    });
 
-    // --- EVENT LISTENERS DOS BOTÕES DE CONTROLE ---
-    playPauseButton.addEventListener('click', togglePlayPause);
-    prevButton.addEventListener('click', prevMusic);
-    nextButton.addEventListener('click', nextMusic);
+    // Lógica da letra
+    if (openLyricsButton && lyricsSection && closeLyricsButton) {
+        openLyricsButton.addEventListener('click', () => lyricsSection.style.transform = 'translateY(0)');
+        closeLyricsButton.addEventListener('click', () => lyricsSection.style.transform = 'translateY(100%)');
+    }
 
-    // --- INICIALIZAÇÃO ---
-    // Carrega a primeira música da playlist que veio do Django
+    // Inicialização
     loadMusic(currentMusicIndex);
 });

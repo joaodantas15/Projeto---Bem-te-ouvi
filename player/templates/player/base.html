@@ -12,11 +12,11 @@
 <body>
   <div class="app-container">
     <header>
-        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Bird.png' %}" alt="bem-te-ouvi logo" id="logo" /></a>
+        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Bird.png' %}" alt="Bem-te-ouvi Logo" id="logo" /></a>
         <div id="headerCentro">
           <form action="{% url 'player:buscar' %}" method="get" id="search-form">
             <input type="text" name="q" id="headerBuscar" placeholder="Buscar artista, música ou usuário..." required/>
-            <button type="submit" id="searchButton"><img src="{% static 'player/img/base/search.png' %}" alt="Buscar" /></button>
+            <button type="submit" id="searchButton"><img src="{% static 'player/img/lupa.png' %}" alt="Buscar" /></button>
           </form>
         </div>
         <div id="headerDireita">
@@ -25,25 +25,21 @@
           <a href="#"><img src="{% static 'player/img/user.png' %}" alt="perfil" id="perfil" /></a>
         </div>
     </header>
-
     <aside>
         <nav>
-            <a href="{% url 'player:music_player' %}"><div class="asideTopic"><img src="{% static 'player/img/base/home.png' %}" /><span>Página principal</span></div></a>
-            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/folder-music.png' %}" /><span>Suas playlists</span></div></a>
-            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/music-alt.png' %}" /><span>Publicar Música</span></div></a>
-            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/calendar.png' %}" /><span>Anunciar Evento</span></div></a>
+            <a href="{% url 'player:music_player' %}"><div class="asideTopic"><img src="{% static 'player/img/principal.png' %}" alt="Página Principal"/><span>Página principal</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/playlist.jpg' %}" alt="Suas Playlists"/><span>Suas playlists</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/publicar.png' %}" alt="Publicar Música"/><span>Publicar Música</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/evento.png' %}" alt="Anunciar Evento"/><span>Anunciar Evento</span></div></a>
         </nav>
     </aside>
-
     <main>
         {% block conteudo %}{% endblock %}
     </main>
-
     <div id="player">
         {% block player_content %}{% endblock %}
     </div>
   </div>
-
   {% block js %}{% endblock %}
 </body>
 </html>
