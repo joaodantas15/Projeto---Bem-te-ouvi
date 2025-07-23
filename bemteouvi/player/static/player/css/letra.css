@@ -1,0 +1,228 @@
+/* =============================================== */
+/* 1. ESTRUTURA PRINCIPAL DO LAYOUT (NOVO)         */
+/* =============================================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 60px calc(100vh - 60px);
+    grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+    height: 100vh;
+}
+
+.app-header {
+    grid-area: header;
+    background-color: #1c1c1c;
+    border-bottom: 1px solid #282828;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    color: #fff;
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+    background-color: #040404;
+    padding: 20px;
+    border-right: 1px solid #282828;
+}
+
+.app-main-content {
+    grid-area: main;
+    overflow-y: auto;
+    background: #121212;
+    color: white;
+}
+
+/* --- 1.2: Estilos do Cabeçalho (Header) --- */
+.header-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
+.logo-bird { width: 28px; height: auto; }
+
+.header-search { position: relative; display: flex; align-items: center; }
+.search-icon { position: absolute; left: 15px; color: #b3b3b3; }
+.header-search input {
+    background-color: #282828;
+    color: #fff;
+    width: 350px;
+    padding: 10px 10px 10px 40px;
+    border-radius: 20px;
+    border: none;
+}
+.header-search input::placeholder { color: #b3b3b3; }
+
+.header-user-actions { display: flex; align-items: center; gap: 15px; }
+.user-pic { width: 32px; height: 32px; border-radius: 50%; }
+.login-btn { background: transparent; color: #b3b3b3; font-weight: bold; padding: 8px 12px; border: none; cursor: pointer; transition: color 0.2s; }
+.login-btn:hover { color: #fff; }
+.signup-btn {
+    background-color: #fff;
+    color: #121212;
+    font-weight: bold;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.signup-btn:hover { transform: scale(1.05); }
+
+/* --- 1.3: Estilos do Menu Lateral (Sidebar) --- */
+.app-sidebar nav ul { list-style: none; padding: 0; margin: 0; }
+.app-sidebar nav li a {
+    text-decoration: none;
+    color: #b3b3b3;
+    display: block;
+    padding: 10px 0;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.app-sidebar nav li a:hover {
+    color: #fff;
+}
+
+/* =============================================== */
+/* 2. ESTILOS DO PLAYER DE MÚSICA (AJUSTADOS)      */
+/* =============================================== */
+
+#main-music-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 3rem 1.6rem;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(13, 27, 42, 0.8), rgba(27, 38, 59, 0.9), rgba(46, 46, 84, 0.95));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1;
+}
+
+#container-bird-and-title {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    max-width: 900px;
+    margin-top: 0;
+}
+
+#container-bird { display: none; /* Escondido pois a logo já está no header */ }
+.system-title { display: none; /* Escondido pois a logo já está no header */ }
+hr { display: none; /* Escondido para um layout mais limpo */ }
+
+
+.music-info-and-player {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+    width: 90%;
+    max-width: 900px;
+    box-sizing: border-box;
+    padding-bottom: 5rem;
+}
+
+.album-cover-display {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+#album-cover { width: 100%; height: 100%; object-fit: cover; }
+.music-details { text-align: center; margin-top: 1.5rem; }
+.now-playing-text { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 0.3rem; letter-spacing: 1px; }
+.music-title { font-size: 2.2rem; margin-bottom: 0.3rem; color: #94C0D3; }
+.artist-name { font-size: 1.3rem; color: rgba(255, 255, 255, 0.754); margin-top: 0; }
+
+/* =============================================== */
+/* 3. CONTROLES DO PLAYER E LETRAS (AJUSTADOS)     */
+/* =============================================== */
+
+.player-controls-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 240px;
+    width: calc(100% - 240px);
+    background-color: rgba(40, 40, 40, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 0;
+    box-sizing: border-box;
+    transform: translateY(calc(100% - 13px));
+    transition: transform 0.3s ease-in-out;
+}
+
+.player-controls-bottom:hover { transform: translateY(0); }
+.progress-bar-container { width: 90%; max-width: 600px; height: 0.4rem; background-color: rgba(77, 77, 77, 0.5); border-radius: 25px; cursor: pointer; }
+.progress-bar-music { height: 100%; width: var(--progress-width, 0%); background-color: #94C0D3; border-radius: 25px; transition: width 0.1s linear; }
+.time-display { width: 90%; max-width: 600px; display: flex; justify-content: space-between; font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+.buttons-control { display: flex; align-items: center; gap: 1.5rem; }
+.control-button { background-color: transparent; color: white; border: none; padding: 0.7rem; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: color 0.3s ease, transform 0.2s ease; }
+.control-button:hover { color: #5ac8fa; transform: scale(1.1); }
+.large-button { font-size: 2.5rem; padding: 0; }
+#open-lyrics-button { position: fixed; bottom: calc(5rem + 15px); right: 20px; background-color: #94C0D3; color: #0d1b2a; border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 11; transition: background-color 0.3s ease, transform 0.2s ease; }
+#open-lyrics-button:hover { background-color: #5ac8fa; transform: scale(1.05); }
+.lyrics-section { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 12; display: flex; flex-direction: column; align-items: center; padding-top: 1rem; box-sizing: border-box; transform: translateY(100%); transition: transform 0.5s ease-out; }
+.lyrics-section.show { transform: translateY(0); }
+.lyrics-actions { width: 90%; max-width: 900px; display: flex; justify-content: flex-end; gap: 0.8rem; margin-bottom: 1rem; }
+#close-lyrics-button { margin-right: auto; background-color: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; transition: color 0.3s ease; }
+#close-lyrics-button:hover { color: #5ac8fa; }
+.lyrics-actions .action-button { background-color: transparent; border: none; color: rgba(255, 255, 255, 0.7); font-size: 1.2rem; cursor: pointer; transition: color 0.3s ease, transform 0.2s ease; padding: 0.5rem; border-radius: 5px; }
+.lyrics-actions .action-button:hover { color: #94C0D3; transform: scale(1.05); }
+.lyrics-container { width: 90%; max-width: 900px; height: calc(100% - 120px); overflow-y: scroll; padding: 0 1rem; box-sizing: border-box; text-align: center; scroll-behavior: smooth; }
+.lyrics-container::-webkit-scrollbar { width: 8px; }
+.lyrics-container::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
+.lyrics-container::-webkit-scrollbar-thumb { background: #94C0D3; border-radius: 10px; }
+.lyrics-container::-webkit-scrollbar-thumb:hover { background: #5ac8fa; }
+.lyrics-line { font-size: 1.3rem; margin-bottom: 0.8rem; color: rgba(255, 255, 255, 0.7); transition: color 0.3s ease, font-weight 0.3s ease, transform 0.3s ease; line-height: 1.5; }
+.lyrics-line.active-lyric { color: white; font-weight: bold; transform: scale(1.05); text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); }
+
+/* =============================================== */
+/* 4. RESPONSIVIDADE (AJUSTADA)                    */
+/* =============================================== */
+@media (max-width: 768px) {
+    .app-sidebar { display: none; }
+    .app-container { grid-template-columns: 1fr; grid-template-rows: 60px 1fr; grid-template-areas: "header" "main"; }
+    .player-controls-bottom { left: 0; width: 100%; }
+    .album-cover-display { width: 12rem; height: 12rem; }
+    .music-title { font-size: 1.8rem; }
+    .artist-name { font-size: 1.1rem; }
+}
+@media (max-width: 480px) {
+    .music-title { font-size: 1.5rem; }
+    .artist-name { font-size: 1rem; }
+}
