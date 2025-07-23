@@ -1,46 +1,49 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'player/css/letra.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Bem-te-ouvi</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'player/css/base.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="{% static 'player/img/bird.png'%}" type="image/png" />
+  <title>{% block titulo %}Bem-te-ouvi{% endblock %}</title>
 </head>
 <body>
-    <div class="app-container">
-       <header class="app-header">
-    <div class="header-logo">
-        <img src="{% static 'player/imagens/Bird.png' %}" alt="Logo Bem-te-ouvi" class="logo-bird">
-        <p>Bem-te-ouvi</p>
-    </div>
-    <div class="header-search">
-        <i class="fas fa-search search-icon"></i>
-        <input type="search" placeholder="Pesquise por álbuns, músicas ou artistas...">
-    </div>
-    <div class="header-user-actions">
-        <button class="login-btn">login</button>
-        <button class="signup-btn">cadastrar-se</button>
-        <img src="{% static 'player/imagens/user.png' %}" alt="Perfil do Usuário" class="user-pic">
-    </div>
-</header>
+  <div class="app-container">
+    <header>
+        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Logo1.png' %}" alt="bem-te-ouvi logo" id="logo" /></a>
+        <div id="headerCentro">
+          <form action="{% url 'player:buscar' %}" method="get" id="search-form">
+            <input type="text" name="q" id="headerBuscar" placeholder="Buscar artista, música ou usuário..." required/>
+            <button type="submit" id="searchButton"><img src="{% static 'player/img/base/search.png' %}" alt="Buscar" /></button>
+          </form>
+        </div>
+        <div id="headerDireita">
+          <a href="#" id="loginUsuario">login</a>
+          <a href="#" id="cadastrarUsuario">cadastrar-se</a>
+          <a href="#"><img src="{% static 'player/img/perfil.png' %}" alt="perfil" id="perfil" /></a>
+        </div>
+    </header>
 
-        <aside class="app-sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#">Página Inicial</a></li>
-                    <li><a href="#">Suas Playlists</a></li>
-                    <li><a href="#">Publicar Música</a></li>
-                    <li><a href="#">Anunciar Evento</a></li>
-                </ul>
-            </nav>
-        </aside>
+    <aside>
+        <nav>
+            <a href="{% url 'player:music_player' %}"><div class="asideTopic"><img src="{% static 'player/img/base/home.png' %}" /><span>Página principal</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/folder-music.png' %}" /><span>Suas playlists</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/music-alt.png' %}" /><span>Publicar Música</span></div></a>
+            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/base/calendar.png' %}" /><span>Anunciar Evento</span></div></a>
+        </nav>
+    </aside>
 
-        <main class="app-main-content">
-            {% block content %}
-            {% endblock %}
-        </main>
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <div id="player">
+        {% block player_content %}{% endblock %}
     </div>
+  </div>
+
+  {% block js %}{% endblock %}
 </body>
 </html>

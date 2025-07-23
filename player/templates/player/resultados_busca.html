@@ -1,0 +1,78 @@
+{% extends 'player/base.html' %}
+{% load static %}
+
+{% block title %}Resultados para {{ query }}{% endblock %}
+
+{% block content %}
+<style>
+    .resultados-header {
+        margin-bottom: 2rem;
+    }
+    .resultados-lista {
+        list-style: none;
+        padding: 0;
+    }
+    .resultado-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+    }
+    .resultado-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .resultado-item a {
+        text-decoration: none;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    .resultado-item img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 1rem;
+    }
+    .resultado-info h3 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+    .resultado-info p {
+        margin: 0;
+        color: #b3b3b3;
+    }
+</style>
+
+<div class="resultados-container">
+    <div class="resultados-header">
+        {% if query %}
+            <h1>Resultados da busca por "{{ query }}"</h1>
+        {% else %}
+            <h1>Busca</h1>
+            <p>Por favor, digite um termo na barra de pesquisa.</p>
+        {% endif %}
+    </div>
+
+    {% if resultados %}
+        <ul class="resultados-lista">
+            {% for musica in resultados %}
+                <li class="resultado-item">
+                    <a href="{% url 'player:detalhes_musica' musica.id %}">
+                        <img src="{{ musica.album.capa_album.url }}" alt="Capa de {{ musica.album.titulo }}">
+                        <div class="resultado-info">
+                            <h3>{{ musica.titulo }}</h3>
+                            <p>{{ musica.artista.nome }} • {{ musica.album.titulo }}</p>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>Nenhum resultado encontrado para "{{ query }}".</p>
+    {% endif %}
+
+</div>
+{% endblock %}
