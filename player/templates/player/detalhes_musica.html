@@ -16,5 +16,10 @@
     <p><strong>Compositor(es):</strong> {{ musica.compositor }}</p>
     <p><strong>Gênero:</strong> {{ musica.genero }}</p>
     <p><strong>Duração:</strong> {{ musica.duracao }}</p>
+
+    <hr style="margin-top: 2rem; border-color: #444;">
+    <h3 style="margin-top: 1rem; color: #ffcc00;">--- DEBUG INFO ---</h3>
+    <p>URL da Capa que o Django gerou: <strong>{{ musica.album.capa_album.url }}</strong></p>
+    <p>URL do Áudio que o Django gerou: <strong>{{ musica.arquivo_audio.url }}</strong></p>
 </div>
 {% endblock %}

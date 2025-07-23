@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{% static 'player/css/base.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" href="{% static 'player/img/bird.png'%}" type="image/png" />
+  <link rel="icon" href="{% static 'player/img/Bird.png'%}" type="image/png" />
   <title>{% block titulo %}Bem-te-ouvi{% endblock %}</title>
 </head>
 <body>
   <div class="app-container">
     <header>
-        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Logo1.png' %}" alt="bem-te-ouvi logo" id="logo" /></a>
+        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Bird.png' %}" alt="bem-te-ouvi logo" id="logo" /></a>
         <div id="headerCentro">
           <form action="{% url 'player:buscar' %}" method="get" id="search-form">
             <input type="text" name="q" id="headerBuscar" placeholder="Buscar artista, música ou usuário..." required/>
@@ -22,7 +22,7 @@
         <div id="headerDireita">
           <a href="#" id="loginUsuario">login</a>
           <a href="#" id="cadastrarUsuario">cadastrar-se</a>
-          <a href="#"><img src="{% static 'player/img/perfil.png' %}" alt="perfil" id="perfil" /></a>
+          <a href="#"><img src="{% static 'player/img/user.png' %}" alt="perfil" id="perfil" /></a>
         </div>
     </header>
 
