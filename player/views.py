@@ -5,10 +5,36 @@ import json
 from django.db.models import Q
 
 def music_player_view(request):
-    musicas_db = Musica.objects.all().select_related('artista', 'album')
+    # Pega o ID da música que queremos tocar a partir da URL (?play=7)
+    song_to_play_id = request.GET.get('play', None)
+    
+    # Pega todas as músicas do banco de dados
+    all_songs = list(Musica.objects.all().select_related('artista', 'album'))
+    
+    playlist_ordered = []
 
+    # Se um ID foi especificado, encontre essa música e coloque-a no início da lista
+    if song_to_play_id:
+        song_to_play = None
+        for song in all_songs:
+            if str(song.id) == song_to_play_id:
+                song_to_play = song
+                break
+        
+        if song_to_play:
+            # Adiciona a música escolhida primeiro
+            playlist_ordered.append(song_to_play)
+            # Adiciona as outras músicas, exceto a que já foi adicionada
+            for song in all_songs:
+                if song.id != song_to_play.id:
+                    playlist_ordered.append(song)
+    else:
+        # Se nenhuma música foi especificada, a playlist é a padrão
+        playlist_ordered = all_songs
+
+    # Transforma os objetos do Django em uma lista de dicionários
     playlist_data = []
-    for musica in musicas_db:
+    for musica in playlist_ordered:
         playlist_data.append({
             'id': musica.id,
             'title': musica.titulo,
@@ -18,12 +44,9 @@ def music_player_view(request):
             'lyrics': musica.letra 
         })
 
-    # --- INÍCIO DA CORREÇÃO ---
     context = {
-        # Remova o json.dumps e mude o nome da variável para clareza
         'playlist_data': playlist_data
     }
-    # --- FIM DA CORREÇÃO ---
     
     return render(request, 'player/letra.html', context)
 

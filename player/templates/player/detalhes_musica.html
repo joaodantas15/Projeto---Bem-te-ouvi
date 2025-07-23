@@ -7,6 +7,21 @@
     .detalhes-container h1 { color: #94C0D3; margin-bottom: 2rem; }
     .detalhes-container p { font-size: 1.1rem; line-height: 1.8; }
     .detalhes-container strong { color: #b3b3b3; }
+    .play-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 12px 24px;
+        background-color: #1DB954; /* Cor verde estilo Spotify */
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: transform 0.2s, background-color 0.2s;
+    }
+    .play-button:hover {
+        transform: scale(1.05);
+        background-color: #1ED760;
+    }
 </style>
 <div class="detalhes-container">
     <h1>Detalhes da Música: {{ musica.titulo }}</h1>
@@ -15,5 +30,7 @@
     <p><strong>Compositor(es):</strong> {{ musica.compositor }}</p>
     <p><strong>Gênero:</strong> {{ musica.genero }}</p>
     <p><strong>Duração:</strong> {{ musica.duracao }}</p>
+
+    <a href="{% url 'player:music_player' %}?play={{ musica.id }}" class="play-button">Tocar Música</a>
 </div>
 {% endblock %}

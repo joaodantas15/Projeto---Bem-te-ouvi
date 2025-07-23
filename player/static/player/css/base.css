@@ -21,7 +21,7 @@ body {
     grid-template-areas:
         "sidebar header"
         "sidebar main"
-        "player player";
+        "sidebar player"; /* ANTES: "player player" */
     height: 100vh;
 }
 
