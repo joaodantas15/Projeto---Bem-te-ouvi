@@ -7,7 +7,6 @@ from django.db.models import Q
 def music_player_view(request):
     musicas_db = Musica.objects.all().select_related('artista', 'album')
 
-    # Transforma os objetos do Django em uma lista de dicionários (parecido com o JS antigo)
     playlist_data = []
     for musica in musicas_db:
         playlist_data.append({
@@ -16,14 +15,16 @@ def music_player_view(request):
             'artist': musica.artista.nome,
             'albumCover': musica.album.capa_album.url if musica.album.capa_album else '',
             'audioSrc': musica.arquivo_audio.url if musica.arquivo_audio else '',
-            # ATENÇÃO: A letra agora é um texto único. O JS irá tratar isso.
             'lyrics': musica.letra 
         })
 
+    # --- INÍCIO DA CORREÇÃO ---
     context = {
-        # Converte a lista do Python para uma string JSON segura
-        'playlist_json': json.dumps(playlist_data)
+        # Remova o json.dumps e mude o nome da variável para clareza
+        'playlist_data': playlist_data
     }
+    # --- FIM DA CORREÇÃO ---
+    
     return render(request, 'player/letra.html', context)
 
 def detalhes_musica(request, musica_id):

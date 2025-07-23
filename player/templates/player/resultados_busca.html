@@ -3,49 +3,17 @@
 
 {% block title %}Resultados para {{ query }}{% endblock %}
 
-{% block content %}
+{% block conteudo %} {# <--- CORRIGIDO DE 'content' PARA 'conteudo' #}
 <style>
-    .resultados-header {
-        margin-bottom: 2rem;
-    }
-    .resultados-lista {
-        list-style: none;
-        padding: 0;
-    }
-    .resultado-item {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        border-radius: 8px;
-        transition: background-color 0.2s;
-    }
-    .resultado-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-    .resultado-item a {
-        text-decoration: none;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
-    .resultado-item img {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 4px;
-        margin-right: 1rem;
-    }
-    .resultado-info h3 {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-    .resultado-info p {
-        margin: 0;
-        color: #b3b3b3;
-    }
+    .resultados-header { margin-bottom: 2rem; }
+    .resultados-lista { list-style: none; padding: 0; }
+    .resultado-item { display: flex; align-items: center; padding: 1rem; border-radius: 8px; transition: background-color 0.2s; }
+    .resultado-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+    .resultado-item a { text-decoration: none; color: #fff; display: flex; align-items: center; width: 100%; }
+    .resultado-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; }
+    .resultado-info h3 { margin: 0; font-size: 1.1rem; }
+    .resultado-info p { margin: 0; color: #b3b3b3; }
 </style>
-
 <div class="resultados-container">
     <div class="resultados-header">
         {% if query %}
@@ -55,7 +23,6 @@
             <p>Por favor, digite um termo na barra de pesquisa.</p>
         {% endif %}
     </div>
-
     {% if resultados %}
         <ul class="resultados-lista">
             {% for musica in resultados %}
@@ -73,6 +40,5 @@
     {% elif query %}
         <p>Nenhum resultado encontrado para "{{ query }}".</p>
     {% endif %}
-
 </div>
 {% endblock %}

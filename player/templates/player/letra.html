@@ -50,7 +50,9 @@
 {% endblock %}
 
 {% block js %}
-    {{ playlist_json|json_script:"playlist-data" }}
+    {# Corrigido de 'playlist_json' para 'playlist_data' #}
+    {{ playlist_data|json_script:"playlist-data" }}
+
     <audio id="music-audio" src="" preload="metadata"></audio>
     <script src="{% static 'player/js/letra.js' %}" defer></script>
 {% endblock %}
