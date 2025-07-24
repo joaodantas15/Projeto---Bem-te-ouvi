@@ -3,37 +3,84 @@
 
 {% block title %}Resultados para {{ query }}{% endblock %}
 
-{% block conteudo %} {# <--- CORRIGIDO DE 'content' PARA 'conteudo' #}
+{% block conteudo %}
 <style>
+    .resultados-container { padding: 2rem 3rem; }
     .resultados-header { margin-bottom: 2rem; }
     .resultados-lista { list-style: none; padding: 0; }
-    .resultado-item { display: flex; align-items: center; padding: 1rem; border-radius: 8px; transition: background-color 0.2s; }
+    .resultado-item { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem; border-radius: 5px; transition: background-color 0.2s; }
     .resultado-item:hover { background-color: rgba(255, 255, 255, 0.1); }
-    .resultado-item a { text-decoration: none; color: #fff; display: flex; align-items: center; width: 100%; }
+    
+    .resultado-link { text-decoration: none; color: #fff; display: flex; align-items: center; }
     .resultado-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 1rem; }
     .resultado-info h3 { margin: 0; font-size: 1.1rem; }
     .resultado-info p { margin: 0; color: #b3b3b3; }
+
+    /* --- NOVOS ESTILOS PARA O DROPDOWN --- */
+    .add-to-playlist-container { position: relative; }
+    .add-button-icon {
+        background: transparent;
+        border: 1px solid #b3b3b3;
+        color: #b3b3b3;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    .add-button-icon:hover { color: #fff; border-color: #fff; transform: scale(1.1); }
+    .playlist-dropdown {
+        display: none; /* Escondido por padrão */
+        position: absolute;
+        right: 0;
+        top: 40px; /* Aparece abaixo do botão */
+        background-color: #282828;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        z-index: 10;
+        min-width: 180px;
+        overflow: hidden;
+    }
+    .playlist-dropdown.show { display: block; } /* Classe para mostrar */
+    .playlist-dropdown a {
+        display: block;
+        padding: 12px 16px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .playlist-dropdown a:hover { background-color: #3e3e3e; }
 </style>
+
 <div class="resultados-container">
     <div class="resultados-header">
-        {% if query %}
-            <h1>Resultados da busca por "{{ query }}"</h1>
-        {% else %}
-            <h1>Busca</h1>
-            <p>Por favor, digite um termo na barra de pesquisa.</p>
-        {% endif %}
+        {% if query %}<h1>Resultados da busca por "{{ query }}"</h1>{% endif %}
     </div>
+
     {% if resultados %}
         <ul class="resultados-lista">
             {% for musica in resultados %}
                 <li class="resultado-item">
-                    <a href="{% url 'player:detalhes_musica' musica.id %}">
+                    <a href="{% url 'player:detalhes_musica' musica.id %}" class="resultado-link">
                         <img src="{{ musica.album.capa_album.url }}" alt="Capa de {{ musica.album.titulo }}">
                         <div class="resultado-info">
                             <h3>{{ musica.titulo }}</h3>
                             <p>{{ musica.artista.nome }} • {{ musica.album.titulo }}</p>
                         </div>
                     </a>
+                    <div class="add-to-playlist-container">
+                        <button class="add-button-icon" title="Adicionar à playlist">+</button>
+                        <div class="playlist-dropdown">
+                            {% for playlist in playlists %}
+                                <a href="{% url 'player:adicionar_musica_playlist' playlist_id=playlist.id musica_id=musica.id %}">
+                                    {{ playlist.nome }}
+                                </a>
+                            {% empty %}
+                                <a href="{% url 'player:criar_playlist' %}">Crie uma playlist primeiro</a>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
@@ -41,4 +88,37 @@
         <p>Nenhum resultado encontrado para "{{ query }}".</p>
     {% endif %}
 </div>
+
+<script>
+    // --- JAVASCRIPT PARA CONTROLAR OS DROPDOWNS ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const addButtons = document.querySelectorAll('.add-button-icon');
+
+        addButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation(); // Impede que o clique feche o menu imediatamente
+                // Encontra o dropdown específico deste botão
+                const dropdown = button.nextElementSibling;
+                // Fecha todos os outros dropdowns abertos
+                closeAllDropdowns(dropdown);
+                // Alterna a visibilidade do dropdown atual
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // Fecha os dropdowns se o usuário clicar em qualquer outro lugar
+        window.addEventListener('click', () => {
+            closeAllDropdowns();
+        });
+    });
+
+    function closeAllDropdowns(exceptThisOne = null) {
+        const dropdowns = document.querySelectorAll('.playlist-dropdown');
+        dropdowns.forEach(dropdown => {
+            if (dropdown !== exceptThisOne) {
+                dropdown.classList.remove('show');
+            }
+        });
+    }
+</script>
 {% endblock %}

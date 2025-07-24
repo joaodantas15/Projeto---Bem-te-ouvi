@@ -12,23 +12,27 @@
 <body>
   <div class="app-container">
     <header>
-        <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Bird.png' %}" alt="Bem-te-ouvi Logo" id="logo" /></a>
-        <div id="headerCentro">
-          <form action="{% url 'player:buscar' %}" method="get" id="search-form">
-            <input type="text" name="q" id="headerBuscar" placeholder="Buscar artista, música ou usuário..." required/>
-            <button type="submit" id="searchButton"><img src="{% static 'player/img/lupa.png' %}" alt="Buscar" /></button>
-          </form>
-        </div>
-        <div id="headerDireita">
-          <a href="#" id="loginUsuario">login</a>
-          <a href="#" id="cadastrarUsuario">cadastrar-se</a>
-          <a href="#"><img src="{% static 'player/img/user.png' %}" alt="perfil" id="perfil" /></a>
-        </div>
+      <a href="{% url 'player:music_player' %}"><img src="{% static 'player/img/Bird.png' %}" alt="Bem-te-ouvi Logo" id="logo" /></a>
+      <div id="headerCentro">
+        <form action="{% url 'player:buscar' %}" method="get" id="search-form">
+          <input type="text" name="q" id="headerBuscar" placeholder="Buscar artista, música ou usuário..." required/>
+          <button type="submit" id="searchButton"><img src="{% static 'player/img/lupa.png' %}" alt="Buscar" /></button>
+        </form>
+      </div>
+      <div id="headerDireita">
+        <a href="#" id="loginUsuario">login</a>
+        <a href="#" id="cadastrarUsuario">cadastrar-se</a>
+        <a href="#"><img src="{% static 'player/img/user.png' %}" alt="perfil" id="perfil" /></a>
+      </div>
     </header>
     <aside>
         <nav>
             <a href="{% url 'player:music_player' %}"><div class="asideTopic"><img src="{% static 'player/img/principal.png' %}" alt="Página Principal"/><span>Página principal</span></div></a>
-            <a href="#"><div class="asideTopic"><img src="{% static 'player/img/playlist.jpg' %}" alt="Suas Playlists"/><span>Suas playlists</span></div></a>
+            
+            <a href="{% url 'player:listar_playlists' %}"><div class="asideTopic"><img src="{% static 'player/img/playlist.jpg' %}" alt="Suas Playlists"/><span>Suas playlists</span></div></a>
+            
+            <a href="{% url 'player:criar_playlist' %}"><div class="asideTopic"><span>+ Criar Playlist</span></div></a>
+
             <a href="#"><div class="asideTopic"><img src="{% static 'player/img/publicar.png' %}" alt="Publicar Música"/><span>Publicar Música</span></div></a>
             <a href="#"><div class="asideTopic"><img src="{% static 'player/img/evento.png' %}" alt="Anunciar Evento"/><span>Anunciar Evento</span></div></a>
         </nav>

@@ -1,0 +1,96 @@
+{% extends 'player/base.html' %}
+{% load static %}
+
+{% block titulo %}{{ playlist.nome }}{% endblock %}
+
+{% block conteudo %}
+<style>
+    .playlist-detail-container { padding: 2rem 3rem; }
+    .playlist-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+    .playlist-cover { width: 200px; height: 200px; background-color: #282828; display: flex; align-items: center; justify-content: center; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .playlist-cover i { font-size: 5rem; color: #777; }
+    .playlist-info h1 { font-size: 3rem; margin: 0; }
+    .playlist-info p { color: #b3b3b3; margin-top: 0.5rem; }
+    .play-button-large {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background-color: #199bb3; 
+        border-radius: 50%;
+        color: white;
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        transition: transform 0.2s, background-color 0.2s;
+    }
+    .play-button-large:hover {
+        transform: scale(1.1);
+        background-color: #35e9f0;
+    }
+    .song-list { list-style: none; padding: 0; }
+    .song-item { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; padding: 0.8rem; border-radius: 5px; transition: background-color 0.2s; }
+    .song-item:hover { background-color: #282828; }
+    .song-item span { color: #b3b3b3; }
+    .song-item strong { color: #fff; }
+    .add-button {
+        padding: 6px 12px;
+        background-color: #555;
+        color: white;
+        text-decoration: none;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+    .add-button:hover { background-color: #199bb3; }
+    hr { border-color: #282828; margin: 2rem 0; }
+</style>
+
+<div class="playlist-detail-container">
+    <div class="playlist-header">
+        <div class="playlist-cover">
+            <i class="fas fa-music"></i>
+        </div>
+        <div class="playlist-info">
+            <p>{{ playlist.get_visibilidade_display }}</p>
+            <h1>{{ playlist.nome }}</h1>
+            <p>Uma coleção de suas músicas favoritas.</p>
+
+            <a href="{% url 'player:music_player' %}?playlist={{ playlist.id }}" class="play-button-large" title="Tocar a Playlist">
+                <i class="fas fa-play"></i>
+            </a>
+            </div>
+    </div>
+<h2>Músicas na Playlist</h2>
+<ul class="song-list">
+{% for musica in playlist.musicas.all %}
+    <li class="song-item">
+        <div><strong>{{ musica.titulo }}</strong></div>
+        <div><span>{{ musica.artista.nome }}</span></div>
+        <div><a href="{% url 'player:remover_musica_playlist' playlist_id=playlist.id musica_id=musica.id %}" class="add-button" style="background-color: #c0392b;">Remover</a></div>
+    </li>
+{% empty %}
+    <p style="color: #777; margin-top: 1rem;">Esta playlist está vazia. Adicione as músicas que você mais curte!</p>
+{% endfor %}
+</ul>
+    
+    </ul>
+
+    <hr>
+
+    <h2>Adicionar Músicas</h2>
+    <ul class="song-list">
+    {% for musica in musicas_disponiveis %}
+        <li class="song-item">
+            <div><strong>{{ musica.titulo }}</strong></div>
+            <div><span>{{ musica.artista.nome }}</span></div>
+            <div><a href="{% url 'player:adicionar_musica_playlist' playlist_id=playlist.id musica_id=musica.id %}" class="add-button">+</a></div>
+        </li>
+    {% empty %}
+        <p style="color: #777; margin-top: 1rem;">Todas as músicas do sistema já estão nesta playlist.</p>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
